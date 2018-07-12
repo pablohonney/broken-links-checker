@@ -19,7 +19,7 @@ class BrokenLinksSpider(CrawlSpider):
         self.name = name or config.name
         self.allowed_domains = domains.split(',') if domains else config.allowed_domains
         self.start_urls = urls.split(',') if urls else config.start_urls
-        self.handle_httpstatus_list = httpstatus.split(',') if httpstatus else config.httpstatus_list
+        self.handle_httpstatus_list = map(int, httpstatus.split(',')) if httpstatus else config.httpstatus_list
         super(BrokenLinksSpider, self).__init__(**kwargs)
 
     def parse_item(self, response):
