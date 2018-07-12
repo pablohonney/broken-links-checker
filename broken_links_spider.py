@@ -1,6 +1,6 @@
-from scrapy.selector import HtmlXPathSelector
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy.linkextractor import LinkExtractor
+# from scrapy.selector import HtmlXPathSelector
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.item import Item, Field
 import config
 
@@ -12,11 +12,15 @@ class BrokenItem(Item):
 
 
 class BrokenLinksSpider(CrawlSpider):
-    name = config.name
-    allowed_domains = config.allowed_domains
-    start_urls = config.start_urls
-    handle_httpstatus_list = [404]
-    rules = (Rule(SgmlLinkExtractor(), callback='parse_item', follow=True),)
+    name = 'BrokenLinksSpider'
+    rules = (Rule(LinkExtractor(), callback='parse_item', follow=True),)
+
+    def __init__(self, name=None, urls=None, domains=None, httpstatus=None, **kwargs):
+        self.name = name or config.name
+        self.allowed_domains = domains.split(',') if domains else config.allowed_domains
+        self.start_urls = urls.split(',') if urls else config.start_urls
+        self.handle_httpstatus_list = httpstatus.split(',') if httpstatus else config.httpstatus_list
+        super(BrokenLinksSpider, self).__init__(**kwargs)
 
     def parse_item(self, response):
         if response.status == 404:
