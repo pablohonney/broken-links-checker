@@ -23,7 +23,7 @@ class BrokenLinksSpider(CrawlSpider):
         super(BrokenLinksSpider, self).__init__(**kwargs)
 
     def parse_item(self, response):
-        if response.status == self.handle_httpstatus_list:
+        if response.status in self.handle_httpstatus_list:
             item = BrokenItem()
             item['url'] = response.url
             item['referer'] = response.request.headers.get('Referer')
