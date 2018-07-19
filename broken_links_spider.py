@@ -18,6 +18,7 @@ class BrokenLinksSpider(CrawlSpider):
     def __init__(self, name=None, urls=None, domains=None, httpstatus=None, **kwargs):
         self.name = name or config.name
         self.allowed_domains = domains.split(',') if domains else config.allowed_domains
+        self.allowed_domains = [d.split('://')[-1].rstrip('/') for d in self.allowed_domains]
         self.start_urls = urls.split(',') if urls else config.start_urls
         self.handle_httpstatus_list = map(int, httpstatus.split(',')) if httpstatus else config.httpstatus_list
         super(BrokenLinksSpider, self).__init__(**kwargs)
