@@ -26,7 +26,7 @@ class BrokenLinksSpider(CrawlSpider):
         if response.status in self.handle_httpstatus_list:
             item = BrokenItem()
             item['url'] = response.url
-            item['referer'] = response.request.headers.get('Referer')
+            item['referer'] = response.request.headers.get('Referer').decode('utf8')
             item['status'] = response.status
 
             return item
