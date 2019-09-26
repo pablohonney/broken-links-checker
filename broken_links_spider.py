@@ -1,6 +1,5 @@
-from scrapy.linkextractor import LinkExtractor
-# from scrapy.selector import HtmlXPathSelector
 from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 import config
 
